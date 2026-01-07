@@ -1,8 +1,10 @@
-import 'package:flutter/material.dart'; 
+
+import 'package:flutter/material.dart';
 import 'add_product_page.dart';
 import 'edit_product_page.dart';
 import '../../../services/supabase_service.dart';
 import 'product_model.dart';
+import '../../utils/cart.dart'; // <-- import cart
 
 class ProductListPage extends StatefulWidget {
   const ProductListPage({super.key});
@@ -56,7 +58,7 @@ class _ProductListPageState extends State<ProductListPage> {
     final itemWidth = (screenWidth - 40) / 3;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F0E6), // light coffee color
+      backgroundColor: const Color(0xFFF5F0E6),
       appBar: AppBar(
         title: const Text('Products'),
         backgroundColor: Colors.brown,
@@ -92,85 +94,30 @@ class _ProductListPageState extends State<ProductListPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Stack(
-                              children: [
-                                // ===== IMAGE =====
-                                Container(
-                                  height: itemWidth,
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(12),
-                                      topRight: Radius.circular(12),
-                                    ),
-                                    color: Colors.grey[200],
-                                    image: hasImage
-                                        ? DecorationImage(
-                                            image: NetworkImage(product.imageUrl!),
-                                            fit: BoxFit.cover,
-                                          )
-                                        : null,
-                                  ),
-                                  child: !hasImage
-                                      ? const Center(
-                                          child: Icon(
-                                          Icons.image,
-                                          size: 30,
-                                          color: Colors.grey,
-                                        ))
-                                      : null,
+                            Container(
+                              height: itemWidth,
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(12),
+                                  topRight: Radius.circular(12),
                                 ),
-
-                                // ===== ADMIN BUTTONS =====
-                                if (isAdmin)
-                                  Positioned(
-                                    top: 4,
-                                    right: 4,
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.white70,
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: IconButton(
-                                            icon: const Icon(
-                                              Icons.edit,
-                                              size: 20,
-                                              color: Colors.blue,
-                                            ),
-                                            onPressed: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (_) =>
-                                                      EditProductPage(product: product),
-                                                ),
-                                              ).then((_) => fetchProducts());
-                                            },
-                                          ),
-                                        ),
-                                        const SizedBox(height: 4),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.white70,
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: IconButton(
-                                            icon: const Icon(
-                                              Icons.delete,
-                                              size: 20,
-                                              color: Colors.red,
-                                            ),
-                                            onPressed: () => deleteProduct(product.id),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                              ],
+                                color: Colors.grey[200],
+                                image: hasImage
+                                    ? DecorationImage(
+                                        image: NetworkImage(product.imageUrl!),
+                                        fit: BoxFit.cover,
+                                      )
+                                    : null,
+                              ),
+                              child: !hasImage
+                                  ? const Center(
+                                      child: Icon(
+                                      Icons.image,
+                                      size: 30,
+                                      color: Colors.grey,
+                                    ))
+                                  : null,
                             ),
-
-                            // ===== NAME, PRICE & USER CART BUTTON =====
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 4.0),
                               child: Column(
@@ -196,7 +143,7 @@ class _ProductListPageState extends State<ProductListPage> {
                                     IconButton(
                                       icon: const Icon(Icons.add_shopping_cart, color: Colors.green),
                                       onPressed: () {
-                                        // Add to cart logic here
+                                        Cart.add(product); // <-- add to cart
                                         ScaffoldMessenger.of(context).showSnackBar(
                                           SnackBar(content: Text('${product.name} added to cart')),
                                         );
@@ -211,7 +158,6 @@ class _ProductListPageState extends State<ProductListPage> {
                     },
                   ),
                 ),
-      // ===== ADD BUTTON (ONLY FOR ADMIN) =====
       floatingActionButton: isAdmin
           ? FloatingActionButton(
               backgroundColor: Colors.brown,

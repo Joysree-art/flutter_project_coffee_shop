@@ -17,7 +17,7 @@ void main() async {
   );
 
   // Optional: Refresh current user on app start
-  await SupabaseService.refreshUser();
+  await SupabaseService.loadUserProfile(); 
 
   runApp(const CoffeeShopApp());
 }

@@ -22,8 +22,11 @@ class _AdminPageState extends State<AdminPage> {
   }
 
   Future<void> loadUser() async {
-    await SupabaseService.refreshUser();
-    setState(() => user = SupabaseService.currentUser);
+    /// 🔥 FIX HERE
+    await SupabaseService.loadUserProfile();
+    setState(() {
+      user = SupabaseService.currentUser;
+    });
   }
 
   @override
@@ -53,7 +56,11 @@ class _AdminPageState extends State<AdminPage> {
             icon: const Icon(Icons.logout),
             onPressed: () async {
               await SupabaseService.logout();
-              Navigator.of(context).pop(); // Back to login
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/login',
+                (_) => false,
+              );
             },
           )
         ],
@@ -62,8 +69,10 @@ class _AdminPageState extends State<AdminPage> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: selectedIndex,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Products'),
-          BottomNavigationBarItem(icon: Icon(Icons.receipt), label: 'Orders'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.list), label: 'Products'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.receipt), label: 'Orders'),
         ],
         onTap: (index) => setState(() => selectedIndex = index),
       ),
