@@ -15,7 +15,7 @@ class AboutPage extends StatelessWidget {
         backgroundColor: Colors.brown,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      backgroundColor: const Color(0xFFFFF5E1), // হালকা coffee color
+      backgroundColor: const Color(0xFFB08968), // হালকা coffee color
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Center(
@@ -44,7 +44,7 @@ class AboutPage extends StatelessWidget {
                     style: TextStyle(fontSize: 16),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 15),
                   Divider(color: Colors.brown, thickness: 1.5),
                   SizedBox(height: 10),
                   Text(

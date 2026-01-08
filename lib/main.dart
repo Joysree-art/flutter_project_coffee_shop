@@ -16,7 +16,7 @@ void main() async {
     anonKey: 'sb_publishable_F9F7DLD_dUVYIBbi2mXRlA_C8MbPXQH',
   );
 
-  // Optional: Refresh current user on app start
+  
   await SupabaseService.loadUserProfile(); 
 
   runApp(const CoffeeShopApp());

@@ -43,7 +43,7 @@ class _CartPageState extends State<CartPage> {
         const SnackBar(content: Text('Order placed successfully!')),
       );
 
-      Cart.clear(); // clear cart
+      Cart.clear();
 
       Navigator.pushReplacement(
         context,
@@ -62,7 +62,7 @@ class _CartPageState extends State<CartPage> {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Cart')),
-      backgroundColor: kBackgroundColor,
+      backgroundColor: const Color(0xFFB08968) , // ☕ COFFEE COLOR ADDED
       body: cartItems.isEmpty
           ? const Center(
               child: Text(
@@ -82,8 +82,10 @@ class _CartPageState extends State<CartPage> {
                         margin: const EdgeInsets.symmetric(vertical: 6),
                         child: ListTile(
                           title: Text(item.name),
-                          subtitle: Text('Price: ${item.price} x ${item.quantity}'),
-                          trailing: Text('Total: ${item.price * item.quantity}'),
+                          subtitle:
+                              Text('Price: ${item.price} x ${item.quantity}'),
+                          trailing:
+                              Text('Total: ${item.price * item.quantity}'),
                         ),
                       );
                     },
@@ -114,7 +116,10 @@ class _CartPageState extends State<CartPage> {
                                   color: Colors.white,
                                 ),
                               )
-                            : const Text('Checkout'),
+                            : const Text(
+                               'Checkout',
+                                style: TextStyle(color: Colors.white), // ✅ white text
+                              ),
                       ),
                     ],
                   ),

@@ -3,7 +3,7 @@ class Product {
   final String name;
   final double price;
   final String? imageUrl;
-  final String? description; // add this
+  final String? description;
   int quantity;
 
   Product({
@@ -21,18 +21,18 @@ class Product {
       name: map['name'],
       price: (map['price'] as num).toDouble(),
       imageUrl: map['image_url'],
-      description: map['description'], // from DB
+      description: map['description'],
       quantity: 1,
     );
   }
 
+  /// ❗ INSERT / UPDATE এর সময় id পাঠানো যাবে না
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'name': name,
       'price': price,
       'image_url': imageUrl,
-      'description': description, // to DB
+      'description': description,
     };
   }
 }
